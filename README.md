@@ -6,9 +6,9 @@ https://github.com/user-attachments/assets/7f53be37-bfed-43ea-8f4e-428972ec86d9
 
 The game has basic features such as:
 
-#Scoring System:
+## Scoring System:
   The score increases as you go through the lasers
-#Parallax:
+## Parallax:
   A parallax background which gives a more immersive feel
-#Collision
+## Collision
   Colliding with pipes gives you a Game Over Screen
