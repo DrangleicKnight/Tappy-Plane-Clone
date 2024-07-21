@@ -1,0 +1,117 @@
+[gd_scene load_steps=10 format=3 uid="uid://bcaikborhal3f"]
+
+[ext_resource type="Texture2D" uid="uid://y3ufy7hjln2g" path="res://assets/plane/planes_sheet.png" id="1_om63c"]
+[ext_resource type="Script" path="res://Scenes/Plane/plane.gd" id="1_qwonf"]
+[ext_resource type="AudioStream" uid="uid://d1qgo5lsuf6g5" path="res://assets/audio/engine.mp3" id="3_pvpfo"]
+[ext_resource type="AudioStream" uid="uid://6mdi8wuo75mm" path="res://assets/audio/game_over.wav" id="4_jocq0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tfnlh"]
+radius = 24.0
+height = 64.0
+
+[sub_resource type="Animation" id="Animation_c8ldr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_qq5sh"]
+resource_name = "fly_jump"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4, 0.4001, 0.4002, 0.4003),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.50091, 0.0, 0.0, 0.0, 0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_fly_again"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_rimhs"]
+resource_name = "flying"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [1, 2, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3j6ca"]
+_data = {
+"RESET": SubResource("Animation_c8ldr"),
+"fly_jump": SubResource("Animation_qq5sh"),
+"flying": SubResource("Animation_rimhs")
+}
+
+[node name="Plane" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_qwonf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_om63c")
+hframes = 3
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_tfnlh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3j6ca")
+}
+autoplay = "flying"
+
+[node name="PlaneSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_pvpfo")
+autoplay = true
+
+[node name="Game Over" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_jocq0")

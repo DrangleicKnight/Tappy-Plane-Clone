@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://d10ukt3y6sxoi"]
+
+[ext_resource type="Script" path="res://Scenes/Barrier/barrier.gd" id="1_rmrpw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tpvba"]
+size = Vector2(495, 20)
+
+[node name="Barrier" type="StaticBody2D"]
+script = ExtResource("1_rmrpw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(237.5, 0)
+shape = SubResource("RectangleShape2D_tpvba")

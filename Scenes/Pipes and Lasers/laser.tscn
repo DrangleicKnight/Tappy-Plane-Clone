@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7qxasq4cbd2b"]
+
+[ext_resource type="Texture2D" uid="uid://ck5gxpqm4r8b1" path="res://assets/pipes/laser2.png" id="1_rqtto"]
+[ext_resource type="Script" path="res://Scenes/Pipes and Lasers/laser.gd" id="1_tkda6"]
+[ext_resource type="AudioStream" uid="uid://dehql0sxojl6s" path="res://assets/audio/score.wav" id="3_t6l4n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfc24"]
+size = Vector2(4, 192)
+
+[sub_resource type="Animation" id="Animation_5yry4"]
+resource_name = "lights"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mk6ue"]
+_data = {
+"lights": SubResource("Animation_5yry4")
+}
+
+[node name="Laser" type="Area2D"]
+script = ExtResource("1_tkda6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1, 8)
+texture = ExtResource("1_rqtto")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, 0)
+shape = SubResource("RectangleShape2D_yfc24")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mk6ue")
+}
+autoplay = "lights"
+
+[node name="Score" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_t6l4n")
+
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
